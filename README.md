@@ -1,1 +1,1 @@
-Ajedrez Hecho por Agustin COrrenti
+Ajedrez Hecho por Agustin Correnti
