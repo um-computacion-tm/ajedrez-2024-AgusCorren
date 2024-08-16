@@ -1,5 +1,5 @@
 from game.chess_game import Chess
-from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPosition
+from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPosition, ChessError
 
 class Interfaz:
     def __init__(self):
@@ -49,8 +49,11 @@ class Interfaz:
 
                 print('\n')
                 
-                # Intentar mover la pieza y cambiar de turno solo si el movimiento fue exitoso
+                # Intentar mover la pieza
                 self.__chess__.move(from_row, from_col, to_row, to_col)
-
+                
+                    
             except ValueError:
-                print("Invalid input! Please enter numbers between 0 and 7 for rows and columns.")
+                continue
+            except Exception:
+                continue

@@ -15,4 +15,4 @@ class Bishop(Piece):
         self.position = new_position
 
     def __str__(self):
-        return "B" if self.__color__ == "white" else "bB"
+        return "B " if self.__color__ == "white" else "bB"

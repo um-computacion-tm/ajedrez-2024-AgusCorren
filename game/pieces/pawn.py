@@ -15,4 +15,4 @@ class Pawn(Piece):
         self.position = new_position
 
     def __str__(self):
-        return "P" if self.__color__ == "white" else "bP"
+        return "P " if self.__color__ == "white" else "bP"

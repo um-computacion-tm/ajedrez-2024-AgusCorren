@@ -1,5 +1,5 @@
 from game.board import Board
-from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPosition
+from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPosition, ChessError  
 class Chess:
     def __init__(self):
         self.__board__ = Board()
@@ -19,18 +19,15 @@ class Chess:
             if self.__board__.move(origen, destino):
                 self.change_turn()
                 return True
-
+            else:
+                raise ChessError("Invalid move")
         except InvalidPosition as e:
-            print(f"Error: {e}")
             raise
         except PieceNotFoundError as e:
-            print(f"Error: {e}")
             raise
         except InvalidMoveError as e:
-            print(f"Error: {e}")
             raise
         except Exception as e:
-            print(f"Se produjo un error inesperado: {e}")
             raise
         
         return False
@@ -39,7 +36,7 @@ class Chess:
         try:
             piece = self.__board__.get_piece(x, y)
             if piece is None:
-                raise PieceNotFoundError('En esta posición no existe una pieza')
+                raise PieceNotFoundError(f'In {(x, y)} position there is no piece')
             return piece
         except PieceNotFoundError as e:
             print(f"Error: {e}")
@@ -49,7 +46,7 @@ class Chess:
         if (0<= x < 8 and 0<= y < 8):
             return True
         else:
-            raise InvalidPosition("La posición de destino está fuera del tablero. Debe ser entre 0 y 7")
+            raise InvalidPosition("Invalid position, must be between 0 and 7")
 
     def turn(self):
         return self.__turn__

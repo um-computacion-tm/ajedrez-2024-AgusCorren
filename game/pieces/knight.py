@@ -15,4 +15,4 @@ class Knight(Piece):
         self.position = new_position
 
     def __str__(self):
-        return "Kn" if self.__color__ == "white" else "bKn"
+        return "L " if self.__color__ == "white" else "bL"

@@ -67,7 +67,7 @@ class Board:
             print(f"Error: {e}")
             raise  
         except Exception as e:
-            print(f"Se produjo un error inesperado: {e}")
+            print(f"An unexpected error occurred: {e}")
             raise
         return False
 
@@ -76,13 +76,13 @@ class Board:
         destino_piece = self.get_piece(destino[0], destino[1])
         
         if origen is None:
-            raise PieceNotFoundError("La pieza a mover no se encuentra en el tablero.")
+            raise PieceNotFoundError("Piece not found on the board.")
         elif pos_origen is None:
-            raise PieceNotFoundError("La pieza a mover no se encuentra en el tablero.")
+            raise PieceNotFoundError("Piece not found on the board.")
 
         if isinstance(destino_piece, Piece):
             if origen.get_color() == destino_piece.get_color():
-                raise InvalidMoveError("No puedes mover donde tienes otra pieza.")
+                raise InvalidMoveError("You cannot move where you have another piece.")
 
     def execute_move(self, origen, destino):
         pos_origen = self.find_piece(origen)
@@ -102,8 +102,7 @@ class Board:
             for col in range(8):
                 piece = self.get_piece(row, col)
                 if piece is None:
-                    line += '. '  # Representación de una casilla vacía
+                    line += '.  '  
                 else:
-                    # Usa el método __str__ de la pieza para obtener su representación textual
                     line += f'{piece} '
             print(line)

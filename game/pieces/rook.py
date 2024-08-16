@@ -15,4 +15,4 @@ class Rook(Piece):
         self.position = new_position
 
     def __str__(self):
-        return "R" if self.__color__ == "white" else "bR"
+        return "R " if self.__color__ == "white" else "bR"
