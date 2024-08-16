@@ -1,13 +1,14 @@
 #Importar Excepciones
-from exceptions import PieceNotFoundError, InvalidMoveError
+from game.exceptions import PieceNotFoundError, InvalidMoveError
 
 #Importar Piezas
-from pieces.bishop import Bishop
-from pieces.king import King
-from pieces.knight import Knight
-from pieces.pawn import Pawn
-from pieces.queen import Queen
-from pieces.rook import Rook
+from game.pieces.piece import Piece
+from game.pieces.bishop import Bishop
+from game.pieces.king import King
+from game.pieces.knight import Knight
+from game.pieces.pawn import Pawn
+from game.pieces.queen import Queen
+from game.pieces.rook import Rook
 
 class Board:
     def __init__(self):
@@ -55,25 +56,54 @@ class Board:
         return None
 
     def move(self, origen, destino):
+        try:
+            self.validate_move(origen, destino)
+            self.execute_move(origen, destino)
+            return True
+        except PieceNotFoundError as e:
+            print(f"Error: {e}")
+            raise  
+        except InvalidMoveError as e:
+            print(f"Error: {e}")
+            raise  
+        except Exception as e:
+            print(f"Se produjo un error inesperado: {e}")
+            raise
+        return False
 
+    def validate_move(self, origen, destino):
         pos_origen = self.find_piece(origen)
-        if pos_origen is None:
-            raise PieceNotFoundError("La pieza de origen no se encuentra en el tablero.")
+        destino_piece = self.get_piece(destino[0], destino[1])
         
-        if destino != object:
-            origen.check_move(destino)
-            
-            self.__positions__[destino[0]][destino[1]] = origen
-            self.__positions__[origen[0]][origen[1]] = None
-            origen.set_position(destino)
-        else:
-            pos_destino = self.find_piece(destino)
-            if pos_destino:
-                if origen.get_color() == destino.get_color():
-                    raise InvalidMoveError("No puedes mover donde tienes otra pieza.")
-            
-            origen.check_move(destino)
-            
-            self.__positions__[destino[0]][destino[1]] = origen
-            self.__positions__[origen[0]][origen[1]] = None
-            origen.set_position(destino)
+        if origen is None:
+            raise PieceNotFoundError("La pieza a mover no se encuentra en el tablero.")
+        elif pos_origen is None:
+            raise PieceNotFoundError("La pieza a mover no se encuentra en el tablero.")
+
+        if isinstance(destino_piece, Piece):
+            if origen.get_color() == destino_piece.get_color():
+                raise InvalidMoveError("No puedes mover donde tienes otra pieza.")
+
+    def execute_move(self, origen, destino):
+        pos_origen = self.find_piece(origen)
+        pos_destino = destino
+        destino = self.get_piece(destino[0], destino[1])
+
+        self.__positions__[pos_destino[0]][pos_destino[1]] = origen
+        self.__positions__[pos_origen[0]][pos_origen[1]] = None
+        origen.set_position(pos_destino)
+        if destino is not None:
+            destino.set_position(None)
+
+    def print_board(self):
+        # Imprime el tablero de ajedrez
+        for row in range(7, -1, -1):
+            line = ''
+            for col in range(8):
+                piece = self.get_piece(row, col)
+                if piece is None:
+                    line += '. '  # Representación de una casilla vacía
+                else:
+                    # Usa el método __str__ de la pieza para obtener su representación textual
+                    line += f'{piece} '
+            print(line)
