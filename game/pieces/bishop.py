@@ -12,7 +12,16 @@ class Bishop(Piece):
         return self.__position__
 
     def set_position(self, new_position):
-        self.position = new_position
+        self.__position__ = new_position
 
     def __str__(self):
-        return "B " if self.__color__ == "white" else "bB"
+        return "♗" if self.__color__ == "white" else "♝"
+    
+    def check_move(self, new_position):
+        x, y = new_position
+        current_x, current_y = self.__position__
+        director = ((x - current_x), (y - current_y))
+
+        if abs(director[0]) == abs(director[1]):
+            return True
+        return False

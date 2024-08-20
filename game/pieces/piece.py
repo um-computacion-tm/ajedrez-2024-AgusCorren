@@ -11,7 +11,10 @@ class Piece:
         return self.position
 
     def set_position(self, new_position):
-        self.position = new_position
+        self.__position__ = new_position
         
     def __str__(self):
         return " "
+    
+    def check_move(self, new_position):
+        return True

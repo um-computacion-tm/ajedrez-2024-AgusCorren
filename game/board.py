@@ -1,5 +1,5 @@
 #Importar Excepciones
-from game.exceptions import PieceNotFoundError, InvalidMoveError
+from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPieceMovement
 
 #Importar Piezas
 from game.pieces.piece import Piece
@@ -45,15 +45,18 @@ class Board:
         self.__positions__[7][6] = Knight("white",(7,6))
         self.__positions__[7][7] = Rook("white",(7,7))
 
-    def get_piece(self, row, col):
+    def get_piece(self, row, col): # Devuelve la pieza en la posicion indicada
         return self.__positions__[row][col]
     
-    def find_piece(self, piece):
-        for row in range(8):
-            for col in range(8):
-                if self.__positions__[row][col] == piece:
-                    return (row, col)
-        return None
+    def find_piece(self, piece): # Devuelve la posicion de la pieza encontrada
+        if piece is not None:
+            for row in range(8):
+                for col in range(8):
+                    if self.__positions__[row][col] == piece:
+                        return (row, col)
+            return None
+        else:
+            return None
 
     def move(self, origen, destino):
         try:
@@ -61,15 +64,18 @@ class Board:
             self.execute_move(origen, destino)
             return True
         except PieceNotFoundError as e:
+            raise
+        except InvalidPieceMovement as e:
             print(f"Error: {e}")
-            raise  
+            raise
+
         except InvalidMoveError as e:
             print(f"Error: {e}")
             raise  
+
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
             raise
-        return False
 
     def validate_move(self, origen, destino):
         pos_origen = self.find_piece(origen)
@@ -77,8 +83,13 @@ class Board:
         
         if origen is None:
             raise PieceNotFoundError("Piece not found on the board.")
+        
         elif pos_origen is None:
             raise PieceNotFoundError("Piece not found on the board.")
+        
+        # Validar si el tipo de movimiento de la pieza es valido
+        elif origen.check_move(destino) == False:
+            raise InvalidPieceMovement("Invalid Piece Movement, try again")
 
         if isinstance(destino_piece, Piece):
             if origen.get_color() == destino_piece.get_color():
@@ -102,7 +113,14 @@ class Board:
             for col in range(8):
                 piece = self.get_piece(row, col)
                 if piece is None:
-                    line += '.  '  
+                    line += '. '  
                 else:
                     line += f'{piece} '
             print(line)
+    
+    def color_pieces(self, x, y):
+        piece = self.get_piece(x, y)
+        if piece is None:
+            raise PieceNotFoundError("Piece not found on the board.")
+        else:
+            return piece.get_color()

@@ -1,6 +1,7 @@
 import unittest
 from game.chess_game import Chess
-from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPosition
+from game.pieces.piece import Piece
+from game.exceptions import *
 
 class TestChess(unittest.TestCase):
 
@@ -9,7 +10,7 @@ class TestChess(unittest.TestCase):
 
     def test_move_valid(self):
         # Movimiento inicial válido de un peón
-        self.assertTrue(self.chess.move(1, 0, 2, 0))
+        self.assertTrue(self.chess.move(6, 0, 5, 0))
         # Asegurarse de que el turno cambie después de un movimiento válido
         self.assertEqual(self.chess.turn(), "BLACK")
 
@@ -18,14 +19,13 @@ class TestChess(unittest.TestCase):
         with self.assertRaises(InvalidPosition):
             self.chess.move(1, 0, 8, 0)
 
-    def test_is_a_piece(self):
-        # Verificar que existe una pieza en la posición inicial
-        piece = self.chess.is_a_piece(0, 0)
-        self.assertIsNotNone(piece)
-        
-        # Verificar que no exista una pieza en una posición vacía
-        with self.assertRaises(PieceNotFoundError):
-            self.chess.is_a_piece(4, 4)
+    def test_own_pieces(self):
+        # Verificar que la pieza a mover es del mismo color que turno
+        x, y = (6, 0)
+        self.assertIsInstance(self.chess.own_pieces(x, y), Piece)
+        x, y = (1, 0)
+        with self.assertRaises(ColorError):
+            self.chess.own_pieces(x, y)
 
     def test_turn_management(self):
         # Verificar el cambio de turnos
@@ -45,6 +45,18 @@ class TestChess(unittest.TestCase):
             self.chess.validate_cords(-1, 0)
         with self.assertRaises(InvalidPosition):
             self.chess.validate_cords(0, 8)
+
+    def test_invalid_move(self):
+        with self.assertRaises(PieceNotFoundError):
+            self.chess.move(3, 0, 1, 0)
+        with self.assertRaises(InvalidPieceMovement):
+            self.chess.move(7, 1, 5, 4)
+
+        with self.assertRaises(ColorError):
+            self.chess.move(1, 0, 7, 1)
+        
+        with self.assertRaises(Exception):
+            self.chess.move(7, 1, 7, 1)
 
 if __name__ == "__main__":
     unittest.main()

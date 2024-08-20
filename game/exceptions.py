@@ -18,7 +18,14 @@ class InvalidPosition(ChessError):
     def __init__(self, message="Invalid Position"):
         self.message = message
         super().__init__(self.message)
+
 class ColorError(ChessError):
     "Excepcion para posiciones piezas de color diferente"
-    def __init__(self, message="Cannot move to a different color piece"):
+    def __init__(self, message="Cannot move a piece of a different color"):
         self.message = message
+
+class InvalidPieceMovement(InvalidMoveError):
+    "Excepcion para movimientos invalidos"
+    def __init__(self, message="Invalid Piece Movement"):
+        self.message = message
+        super().__init__(self.message)
