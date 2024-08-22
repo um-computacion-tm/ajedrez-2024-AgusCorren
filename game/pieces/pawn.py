@@ -20,7 +20,6 @@ class Pawn(Piece):
     def check_move(self, positions, new_position):
         x, y = new_position
         current_x, current_y = self.__position__
-        x_dir, y_dir = ((x - current_x), (y - current_y))
 
         if self.__color__ == "white":
         # Movimiento hacia adelante
