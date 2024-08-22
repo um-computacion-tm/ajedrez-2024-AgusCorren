@@ -29,5 +29,4 @@ class Knight(Piece):
         for move in possible_moves:
             if (x, y) == (current_x + move[0], current_y + move[1]):
                 return True
-
         return False

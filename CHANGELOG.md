@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2024-08-21
+### Agregando
+- **tests/test_interfaz.py**:
+  - Añadidos tests para la clase `Interfaz`, aún sigue en proceso.
+- **tests/test_bishop.py**:
+  - Añadidos tests para la clase `Bishop`.
+- **tests/test_king.py**:
+  - Añadidos tests para la clase `King`.
+- **tests/test_knight.py**:
+  - Añadidos tests para la clase `Knight`.
+- **tests/test_pawn.py**:
+  - Añadidos tests para la clase `Pawn`.
+- **tests/test_piece.py**:
+  - Añadidos tests para la clase `Piece`.
+- **tests/test_queen.py**:
+  - Añadidos tests para la clase `Queen`.
+- **tests/test_rook.py**:
+  - Añadidos tests para la clase `Rook`.
+### Modificando
+- **game/chess_game.py**:
+  - Método `validate_cords` para validar las coordenadas de las piezas.
+  - Método `print_board` para imprimir el tablero de ajedrez.
+  - Método `own_pieces` para obtener la pieza que posee el usuario.
+- **game/board.py**:
+  - Método `color_pieces` para obtener el color de la pieza en una posición.
+- **pieces/**: Implementado método para validar si un movimiento es válido.
+  - Método `check_move` en cada clase de pieza para validar si un movimiento es válido.
+- **game/exceptions.py**: Implementando nuevas excepciones.
+  - Excepción `InvalidPieceMovement` para errores de movimientos de piezas.
+  - Excepción `ColorError` para errores de piezas de color diferente.
 ## [0.2.0] - 2024-08-15
 ### Agregando
 - **chess_game.py**:
@@ -14,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **test_chess.py**: Implementado test unitarios para  la clase `Chess`.
 - **test_board.py**: Implementado test unitarios la clase `Board`.
 ### Modificando
-- **pieces/**: Implemntado los metodos para mover las piezas.
+- **pieces/**: Implementado los metodos para mover las piezas.
   - Método `get_position` en cada clase de pieza para obtener la posición de la pieza.
   - Método `set_position` en cada clase de pieza para establecer la posición de la pieza.
 - **cli.py** -> **interfaz.py**: Renombrado del archivo `cli.py` a `interfaz.py` y reformado para implementar la clase `Interfaz` que gestiona la interacción del usuario con el juego.

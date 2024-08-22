@@ -8,7 +8,7 @@ class Piece:
         return self.__color__
     
     def get_position(self):
-        return self.position
+        return self.__position__
 
     def set_position(self, new_position):
         self.__position__ = new_position

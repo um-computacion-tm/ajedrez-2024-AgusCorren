@@ -6,6 +6,7 @@ omit =
     venv/*
     */test/*
     */__init__.py
+    */__main__.py
 [report]
 exclude_lines =
     pragma: no cover
@@ -15,5 +16,6 @@ exclude_lines =
     return raw_input
     print
     if __name__ == "__main__":
+    if __name__ == '__main__':
     def suite
     __str__

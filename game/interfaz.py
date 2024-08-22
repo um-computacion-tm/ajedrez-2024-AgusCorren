@@ -25,6 +25,7 @@ class Interfaz:
 
             elif option == "Game Started":
                 self.start_game()
+                break
     
     def validate_option(self, option):
         if option not in "12":

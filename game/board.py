@@ -73,10 +73,6 @@ class Board:
             print(f"Error: {e}")
             raise  
 
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
-            raise
-
     def validate_move(self, origen, destino):
         pos_origen = self.find_piece(origen)
         destino_piece = self.get_piece(destino[0], destino[1])
