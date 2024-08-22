@@ -17,7 +17,7 @@ class King(Piece):
     def __str__(self):
         return "♚" if self.__color__ == "white" else "♔"
     
-    def check_move(self, new_position):
+    def check_move(self, positions, new_position):
         x, y = new_position
         current_x, current_y = self.__position__
 

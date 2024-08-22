@@ -16,5 +16,5 @@ class Piece:
     def __str__(self):
         return " "
     
-    def check_move(self, new_position):
+    def check_move(self, positions, new_position):
         return True

@@ -88,7 +88,7 @@ class Board:
             raise PieceNotFoundError("Piece not found on the board.")
         
         # Validar si el tipo de movimiento de la pieza es valido
-        elif origen.check_move(destino) == False:
+        elif origen.check_move(self.__positions__,destino) == False:
             raise InvalidPieceMovement("Invalid Piece Movement, try again")
 
         if isinstance(destino_piece, Piece):

@@ -45,7 +45,6 @@ class Interfaz:
                 from_col = int(input('From column: '))
                 to_row = int(input('To row: '))
                 to_col = int(input('To column: '))
-
                 print('\n')
                 
                 # Intentar mover la pieza
