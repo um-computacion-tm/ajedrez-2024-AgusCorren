@@ -1,5 +1,5 @@
 #Importar Excepciones
-from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPieceMovement
+from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPieceMovement, CantEatKing
 
 #Importar Piezas
 from game.pieces.piece import Piece
@@ -68,6 +68,9 @@ class Board:
         except InvalidPieceMovement as e:
             print(f"Error: {e}")
             raise
+        except CantEatKing as e:
+            print(f"Error: {e}")
+            raise
 
         except InvalidMoveError as e:
             print(f"Error: {e}")
@@ -90,6 +93,8 @@ class Board:
         if isinstance(destino_piece, Piece):
             if origen.get_color() == destino_piece.get_color():
                 raise InvalidMoveError("You cannot move where you have another piece.")
+            elif isinstance(destino_piece, King):
+                raise CantEatKing("You can't eat a king")
 
     def execute_move(self, origen, destino):
         pos_origen = self.find_piece(origen)
@@ -120,3 +125,18 @@ class Board:
             raise PieceNotFoundError("Piece not found on the board.")
         else:
             return piece.get_color()
+    
+    def check_victory(self):
+        white_pieces = 0
+        black_pieces = 0
+        for row in range(8):
+            for col in range(8):
+                piece = self.get_piece(row, col)
+                if piece is None:
+                    continue
+                else:
+                    if piece.get_color() == "white":
+                        white_pieces += 1
+                    else:
+                        black_pieces += 1
+        return (white_pieces, black_pieces)

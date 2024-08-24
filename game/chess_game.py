@@ -70,3 +70,6 @@ class Chess:
             
         except PieceNotFoundError as e:
             raise
+    
+    def check_victory(self):
+        ...

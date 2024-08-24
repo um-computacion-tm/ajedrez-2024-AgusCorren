@@ -31,5 +31,3 @@ class Bishop(Piece):
             return True
 
         return False
-    
-

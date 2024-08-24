@@ -29,3 +29,9 @@ class InvalidPieceMovement(InvalidMoveError):
     def __init__(self, message="Invalid Piece Movement"):
         self.message = message
         super().__init__(self.message)
+
+class CantEatKing(ChessError):
+    "Excepcion para que no se pueda comer un rey"
+    def __init__(self, message="You can't eat a king"):
+        self.message = message
+        super().__init__(self.message)
