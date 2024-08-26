@@ -1,31 +1,30 @@
 class ChessError(Exception):
-    pass
+    """Clase base para las excepciones de ajedrez."""
+    def __init__(self, message="An error occurred in the chess game."):
+        self.message = message
+        super().__init__(self.message)
 
 class PieceNotFoundError(ChessError):
-    "Excepcion cuando no se encuentra una pieza en el tablero"
+    """Excepción cuando no se encuentra una pieza en el tablero."""
     def __init__(self, message="Piece not found."):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
 
 class InvalidMoveError(ChessError):
-    "Excepcion para movimientos invalidos"
+    """Excepción para movimientos inválidos."""
     def __init__(self, message="Invalid Move"):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
 
 class InvalidPosition(ChessError):
-    "Excepcion para posiciones invalidas"
+    """Excepción para posiciones inválidas."""
     def __init__(self, message="Invalid Position"):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
 
 class ColorError(ChessError):
-    "Excepcion para posiciones piezas de color diferente"
+    """Excepción para mover piezas de un color diferente."""
     def __init__(self, message="Cannot move a piece of a different color"):
-        self.message = message
+        super().__init__(message)
 
 class InvalidPieceMovement(InvalidMoveError):
-    "Excepcion para movimientos invalidos"
+    """Excepción para movimientos inválidos de una pieza."""
     def __init__(self, message="Invalid Piece Movement"):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
