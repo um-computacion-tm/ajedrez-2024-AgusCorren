@@ -20,19 +20,17 @@ class Chess:
             mover_pieza = self.__board__.move(origen, destino)
             status = self.check_victory()
 
-            '''
-            El check_victory() aun no esta completo del todo
-            '''
+            if mover_pieza:
+                if status == "Draw":
+                    return "Draw"
+                elif status == "Black wins":
+                    return "Black wins"
+                elif status == "White wins":
+                    return "White wins"
+                else:
+                    self.change_turn()  # Cambiar turno si el juego continúa
+                    return True  # Movimiento válido pero el juego no ha terminado
 
-            if mover_pieza and status:
-                self.change_turn()
-                return True
-            elif status == "Black wins":
-                return "Black wins"
-            elif status == "White wins":
-                return "White wins"
-            elif status == "Draw":
-                return "Draw"
             
         except InvalidPosition as e:
             raise
@@ -85,14 +83,16 @@ class Chess:
 
         pieces_alive = self.__board__.pieces_on_board()
 
-        if pieces_alive[0] > 1 and pieces_alive[1] < 2:
+        if pieces_alive[0] > 1 and pieces_alive[1] < 2 and self.__turn__ == "BLACK":
+        # Si el rey blanco tiene una pieza de mas y el rey negro esta solo y es su turno, entonces el rey blanco gana
             return "White wins"
-        elif pieces_alive[1] > 1 and pieces_alive[0] < 2:
+        elif pieces_alive[1] > 1 and pieces_alive[0] < 2 and self.__turn__ == "WHITE":
+        # Si el rey negro tiene una pieza de mas y el rey blanco esta solo y es su turno, entonces el rey negro gana
             return "Black wins"
         elif pieces_alive[0] + pieces_alive[1] == 2:
+        # Si quedan los dos reyes solos, entonces el juego termina en empate
             return "Draw"
-        else:
-            return True
+        return True
 
     def translate_input(self, input_str):
         """

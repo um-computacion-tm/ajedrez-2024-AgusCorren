@@ -144,3 +144,11 @@ class Board:
                     else:
                         black_pieces += 1
         return (white_pieces, black_pieces)
+    
+    def clean_board(self):
+        for row in range(8):
+            for col in range(8):
+                self.__positions__[row][col] = None
+
+    def set_piece_on_board(self, row, col, piece):
+        self.__positions__[row][col] = piece
