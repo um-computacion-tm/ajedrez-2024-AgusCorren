@@ -13,6 +13,7 @@ class TestPawn(unittest.TestCase):
         self.__positions__[1][4] = self.__black_pawn__
         self.__positions__[2][2] = self.__white_pawn2__
         self.__positions__[4][6] = self.__black_pawn2__
+        self.__no_color_pawn__ = Pawn(None, (5, 5))
 
     def test_white_pawn_moves(self):
         # Movimiento hacia adelante sin captura
@@ -49,6 +50,9 @@ class TestPawn(unittest.TestCase):
         self.__positions__[2][4] = Pawn("white", (2, 4))
         self.assertFalse(self.__black_pawn__.check_move(self.__positions__, (3, 4)))  # Movimiento hacia adelante cuando la casilla está ocupada
         self.assertFalse(self.__black_pawn__.check_move(self.__positions__, (1, 1)))  # Movimiento en una dirección no válida
+
+    def test_no_color_pawn(self):
+        self.assertFalse(self.__no_color_pawn__.check_move(self.__positions__, (5, 5)))
 
     def test_set_position(self):
         self.__white_pawn__.set_position((5, 5))

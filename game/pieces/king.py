@@ -12,12 +12,6 @@ class King(Piece):
 
         x, y, current_x, current_y = self.get_coordinates(new_position)
 
-        result = False
-
-        if x == current_x + 1 or x == current_x - 1:
-            if y == current_y or y == current_y + 1 or y == current_y - 1:
-                result = True
-        elif y == current_y + 1 or y == current_y - 1:
-            if x == current_x or x == current_x + 1 or x == current_x - 1:
-                result = True
-        return result
+        if abs(x - current_x) <= 1 and abs(y - current_y) <= 1:
+            return True
+        return False
