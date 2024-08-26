@@ -32,110 +32,125 @@ class Interfaz:
                 break
     
     def validate_option(self, type, option):
+        result = ""
         if type == "start_game":
         ## Validar opciones de menu
-                    if option not in "12":
-                        return "Invalid option"
-                    elif option == "2":
-                        return "Game Over"
-                    elif option == "1":
-                        return "Game Started"
-        
+            if option not in "12":
+                result = "Invalid option"
+            elif option == "2":
+                result = "Game Over"
+            elif option == "1":
+                result = "Game Started"
+            
         elif type == "continue_game":
         ## Validar opciones de menu
             if option not in "123":
-                return "Invalid option"
+                result = "Invalid option"
             elif option == "3":
-                return "Resign"
+                result = "Resign"
             elif option == "2":
-                return "Draw"
+                result = "Draw"
             elif option == "1":
-                return "Move piece"
+                result = "Move piece"
+
+        return result
 
     
     def start_game(self):
         while True:
-            ## Imprimer el tablero y el turno
             if not self.turn_menu():
                 break
-            print("\n")
+            self.display_board_and_turn()
+
+            from_input, to_input = self.get_move_input()
+            self.attempt_move(from_input, to_input)
+
+    def display_board_and_turn(self):
+        self.clear_terminal()
+        print(f"\n  {self.__chess__.turn()} TO MOVE\n")
+        self.__chess__.print_board()
+
+    def get_move_input(self):
+        print('\nEnter your move')
+        from_input = input('From: ')
+        to_input = input('To: ')
+        print('\n')
+        return from_input, to_input
+
+    def attempt_move(self, from_input, to_input):
+        try:
             self.clear_terminal()
-            print(f"\n  {self.__chess__.turn()} TO MOVE\n")
-            self.__chess__.print_board()
-
-            print('\nEnter your move')
-            from_input = input('From: ')
-            to_input = input('To: ')
             print('\n')
-
-            try:
-                self.clear_terminal()
-                print('\n')
-                if self.__chess__.move(from_input, to_input):
-                    continue
-                else:
-                    print(self.__chess__.move(from_input, to_input))
-                
-            except ValueError as e:
-                print(e)
-                continue
-            except PieceNotFoundError as e:
-                continue
-            except InvalidPieceMovement as e:
-                continue
-            except InvalidMoveError as e:
-                continue
-            except InvalidPosition as e:
-                continue
-            except ColorError as e:
-                continue
-            except ChessError as e:
-                continue
-            except Exception as e:
-                continue
+            if self.__chess__.move(from_input, to_input):
+                pass
+            else:
+                print(self.__chess__.move(from_input, to_input))
+        except ValueError as e:
+            print(e)
+        except PieceNotFoundError as e:
+            pass
+        except InvalidPieceMovement as e:
+            pass
+        except InvalidMoveError as e:
+            pass
+        except InvalidPosition as e:
+            pass
+        except ColorError as e:
+            pass
+        except ChessError as e:
+            pass
+        except Exception as e:
+            pass
 
     def turn_menu(self):
         ## Este Menu permite al jugador decidir si quiere continuar o no
 
         while True:
-            print('\n')
-            self.__chess__.print_board()
-            print('\n')
-            print("Turn: ", self.__chess__.turn())
-            print('\nSelect an Option')
-            print('1. Move piece')
-            print('2. Draw')
-            print('3. Resign')
+            self.display_turn_menu()
             selection = input("\nType your selection here: ")
             option = self.validate_option("continue_game", selection)
 
             if option == "Invalid option":
-                self.clear_terminal()
-                print("\n" + f'{selection} is a Invalid option, try again' + "\n")
-                continue
+                self.handle_invalid_option(selection)
             elif option == "Resign":
-                player = self.__chess__.turn()
-                print(f"\n{player} resigns the game")
-                if player == "WHITE":
-                    print(f"\nBLACK WINS")
-                    break
-                elif player == "BLACK":
-                    print(f"\nWHITE WINS")
+                if self.handle_resignation():
                     break
             elif option == "Draw":
-                if self.draw(self.__chess__.turn()):
-                    print("\nGame Drawn")
+                if self.handle_draw():
                     break
-                else:
-                    if self.__chess__.turn() == "WHITE":
-                        print(f"\nBLACK REJECTS THE DRAW")
-                        continue
-                    elif self.__chess__.turn():
-                        print(f"\nWHITE REJECTS THE DRAW")
-                        continue
             elif option == "Move piece":
                 return True
         return False
+
+    def display_turn_menu(self):
+        print('\n')
+        self.__chess__.print_board()
+        print('\n')
+        print("Turn: ", self.__chess__.turn())
+        print('\nSelect an Option')
+        print('1. Move piece')
+        print('2. Draw')
+        print('3. Resign')
+
+    def handle_invalid_option(self, selection):
+        self.clear_terminal()
+        print("\n" + f'{selection} is an invalid option, try again' + "\n")
+
+    def handle_resignation(self):
+        player = self.__chess__.turn()
+        print(f"\n{player} resigns the game")
+        winner = "BLACK" if player == "WHITE" else "WHITE"
+        print(f"\n{winner} WINS")
+        return True
+
+    def handle_draw(self):
+        if self.draw(self.__chess__.turn()):
+            print("\nGame Drawn")
+            return True
+        else:
+            rejecting_player = "BLACK" if self.__chess__.turn() == "WHITE" else "WHITE"
+            print(f"\n{rejecting_player} REJECTS THE DRAW")
+            return False
     
     def draw(self, player):
 
