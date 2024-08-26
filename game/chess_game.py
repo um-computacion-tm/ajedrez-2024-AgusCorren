@@ -114,7 +114,7 @@ class Chess:
         
         # Convertir la letra a un índice de columna
         if letter not in letter_to_col:
-            raise ValueError("First character must be a letter from A to H.")
+            raise InvalidPosition("First character must be a letter from A to H.")
         col = letter_to_col[letter]
 
         # Convertir el número de la columna
@@ -122,7 +122,7 @@ class Chess:
 
             row = int(num)
             if row < 0 or row > 7:
-                raise ValueError("Second character must be a number from 1 to 8.")
+                raise InvalidPosition("Second character must be a number from 1 to 8.")
             return (row, col)
         
         except ValueError:
