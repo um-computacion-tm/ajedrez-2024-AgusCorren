@@ -1,5 +1,5 @@
 #Importar Excepciones
-from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPieceMovement, CantEatKing
+from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPieceMovement
 
 #Importar Piezas
 from game.pieces.piece import Piece
@@ -68,9 +68,6 @@ class Board:
         except InvalidPieceMovement as e:
             print(f"Error: {e}")
             raise
-        except CantEatKing as e:
-            print(f"Error: {e}")
-            raise
 
         except InvalidMoveError as e:
             print(f"Error: {e}")
@@ -93,9 +90,7 @@ class Board:
         if isinstance(destino_piece, Piece):
             if origen.get_color() == destino_piece.get_color():
                 raise InvalidMoveError("You cannot move where you have another piece.")
-            elif isinstance(destino_piece, King):
-                raise CantEatKing("You can't eat a king")
-
+            
     def execute_move(self, origen, destino):
         pos_origen = self.find_piece(origen)
         pos_destino = destino
@@ -108,16 +103,25 @@ class Board:
             destino.set_position(None)
 
     def print_board(self):
-        # Imprime el tablero de ajedrez
+        # Imprime el encabezado de las columnas (A-H)
+        print("  A B C D E F G H")
+        print("  ----------------")
+        
+        # Imprime las filas del tablero de ajedrez con sus etiquetas (0-7)
         for row in range(7, -1, -1):
-            line = ''
+            line = f'{row}|'
             for col in range(8):
                 piece = self.get_piece(row, col)
                 if piece is None:
-                    line += '. '  
+                    line += '. '  # Espacio vacío
                 else:
                     line += f'{piece} '
-            print(line)
+            print(line + f'|{row}')
+        
+        # Imprime el pie de las columnas (A-H)
+        print("  ----------------")
+        print("  A B C D E F G H")
+
     
     def color_pieces(self, x, y):
         piece = self.get_piece(x, y)
@@ -126,7 +130,7 @@ class Board:
         else:
             return piece.get_color()
     
-    def check_victory(self):
+    def pieces_on_board(self):
         white_pieces = 0
         black_pieces = 0
         for row in range(8):

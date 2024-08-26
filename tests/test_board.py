@@ -135,7 +135,7 @@ class TestBoard(unittest.TestCase):
         piece_no_board = Rook("white", None)
         with self.assertRaises(PieceNotFoundError):
             self.__board__.validate_move(piece_no_board, (0, 0))
-    
 
+                            
 if __name__ == "__main__":
     unittest.main()
