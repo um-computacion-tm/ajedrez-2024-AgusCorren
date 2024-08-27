@@ -10,5 +10,5 @@ RUN pip install -r requirements.txt
 
 CMD ["sh", "-c", "coverage run -m unittest discover tests && coverage report -m"]
 
-# docker buildx build -t ajedrez-2024-aguscorren .
+# docker buildx build -t ajedrez-2024-aguscorren . --no-cache
 # docker run -i ajedrez-2024-aguscorren
