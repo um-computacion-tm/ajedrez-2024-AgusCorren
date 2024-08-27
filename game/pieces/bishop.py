@@ -2,8 +2,7 @@ from .piece import Piece
 
 class Bishop(Piece):
     def __init__(self, color, position):
-        self.__color__ = color
-        self.__position__ = position
+        super().__init__(color, position)
 
     def __str__(self):
         return "♗" if self.__color__ == "white" else "♝"

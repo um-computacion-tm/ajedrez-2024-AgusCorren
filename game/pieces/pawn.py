@@ -2,8 +2,7 @@ from .piece import Piece
 
 class Pawn(Piece):
     def __init__(self, color, position):
-        self.__color__ = color
-        self.__position__ = position
+        super().__init__(color, position)
 
     def __str__(self):
         return "♙" if self.__color__ == "white" else "♟"
@@ -45,5 +44,3 @@ class Pawn(Piece):
         if x == current_x + direction and positions[current_x + direction][current_y] is None:
             return True
         return False
-    
-    
