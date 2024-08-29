@@ -1,19 +1,18 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from game.interfaz import Interfaz
+from game.chess_game import Chess
+from game.exceptions import *
 
 class TestInterfaz(unittest.TestCase):
     def setUp(self):
         self.__interfaz__ = Interfaz()
 
-    @patch('builtins.input', side_effect=['1'])
+    @patch('builtins.input', side_effect=['1', '2'])
     @patch('game.interfaz.Interfaz.start_game')
-    def test_menu_start_game(self, mock_start_game, mock_input):
+    def test_menu_valid_options(self, mock_start_game, mock_input):
         self.__interfaz__.menu()
         mock_start_game.assert_called_once()
-
-    @patch('builtins.input', side_effect=['2'])
-    def test_menu_exit_game(self, mock_input):
         with patch('builtins.print') as mock_print:
             self.__interfaz__.menu()
             mock_print.assert_called_with("\nGame Over\n")
@@ -70,9 +69,113 @@ class TestInterfaz(unittest.TestCase):
             self.assertFalse(result)
             mock_print.assert_called_with("\nBLACK REJECTS THE DRAW")
 
+    @patch('builtins.print')
+    @patch('game.interfaz.Chess')
+    @patch('builtins.input', side_effect=['1'])  # Simula la opción de mover una pieza
+    def test_turn_menu_move_piece(self, mock_input, MockChess, mock_print):
+        mock_chess = MockChess.return_value
+        mock_chess.turn.return_value = "WHITE"
+        self.__interfaz__.__chess__ = mock_chess
+        self.__interfaz__.turn_menu()
 
-'''
-En proceso
+        # Verifica que se imprimen los mensajes correctos
+        mock_print.assert_any_call('\n')
+        mock_print.assert_any_call('\nSelect an Option')
+        mock_print.assert_any_call('1. Move piece')
+        mock_print.assert_any_call('2. Draw')
+        mock_print.assert_any_call('3. Resign')
+        mock_print.assert_any_call('3. Resign')
+    
+    @patch('builtins.input', side_effect=['2', 'n', '3'])  # '2' para Draw y 'n' para rechazar el empate
+    @patch('game.interfaz.Interfaz.draw')
+    def test_turn_menu_draw_reject(self, mock_draw, mock_input):
+        mock_draw.return_value = False  # Simula que el empate es rechazado
+        
+        with patch('builtins.print') as mock_print:
+            result = self.__interfaz__.turn_menu()
+            
+            # El resultado debería ser False ya que el empate fue rechazado
+            self.assertFalse(result)
+            
+            # Verifica que se imprimió el mensaje de rechazo del empate
+
+            mock_print.assert_any_call("\nBLACK REJECTS THE DRAW")
+
+            # Luego de que Negro rechace, Blanco se rinde y gana Negro
+            mock_print.assert_any_call("\nWHITE resigns the game")
+            mock_print.assert_any_call("\nBLACK WINS")
+    
+    @patch('builtins.input', side_effect=['2', 'y'])  # '2' para Draw y 'y' para aceptar el empate
+    @patch('game.interfaz.Interfaz.draw')
+    def test_turn_menu_draw_accept(self, mock_draw, mock_input):
+        mock_draw.return_value = True  # Simula que el empate es aceptado
+
+        with patch('builtins.print') as mock_print:
+            result = self.__interfaz__.turn_menu()
+            
+            # El resultado debería ser False ya que el empate fue aceptado y se rompe el bucle
+            self.assertFalse(result)
+
+            # Verifica que los mensajes correctos fueron impresos
+            mock_print.assert_any_call("Turn: WHITE")
+            mock_print.assert_any_call("\nSelect an Option")
+            mock_print.assert_any_call("1. Move piece")
+            mock_print.assert_any_call("2. Draw")
+            mock_print.assert_any_call("3. Resign")
+            mock_print.assert_any_call("\nGame Drawn")
+
+
+
+
+class TestInterfazMoves(unittest.TestCase):
+    @patch('game.interfaz.Chess')
+    def setUp(self, MockChess):
+        self.mock_chess = MockChess.return_value
+        self.interfaz = Interfaz()
+
+    def test_initialization(self):
+        self.assertIsInstance(self.interfaz.__chess__, MagicMock)
+    
+    @patch('builtins.print')
+    def test_display_board_and_turn(self, mock_print):
+        self.interfaz.display_board_and_turn()
+        mock_print.assert_any_call(f"\n  {self.mock_chess.turn()} TO MOVE\n")
+        self.mock_chess.print_board.assert_called_once()
+
+    @patch('builtins.input', side_effect=['e2', 'e4'])
+    @patch('builtins.print')
+    def test_get_move_input(self, mock_print, mock_input):
+        from_input, to_input = self.interfaz.get_move_input()
+        self.assertEqual(from_input, 'e2')
+        self.assertEqual(to_input, 'e4')
+
+    @patch('builtins.print')
+    @patch('game.interfaz.Interfaz.clear_terminal')
+    def test_attempt_move(self, mock_clear_terminal, mock_print):
+        self.mock_chess.move.return_value = True
+        with patch('game.interfaz.Interfaz.get_move_input', return_value=('e2', 'e4')):
+            self.interfaz.attempt_move('e2', 'e4', test_mode=True)
+            self.assertTrue(self.mock_chess.move.called)
+
+        # Simular diferentes excepciones
+        for exception_class in [
+            InvalidPosition,
+            ColorError,
+            PieceNotFoundError,
+            InvalidPieceMovement,
+            InvalidMoveError,
+            ChessError,
+            Exception
+        ]:
+            with self.subTest(exception=exception_class):
+                self.mock_chess.move.side_effect = exception_class("Invalid move")
+                with self.assertRaises(exception_class):
+                    self.interfaz.attempt_move('e2', 'e4', test_mode=True)
+    
+
+
+'''     
+Aun quedan testeos de las lineas: 23, 60-66
 '''
 
 if __name__ == '__main__':

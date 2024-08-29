@@ -33,6 +33,7 @@ class Chess:
 
             
         except InvalidPosition as e:
+            print(f"Error: {e}")
             raise
 
         except PieceNotFoundError as e:
@@ -114,7 +115,7 @@ class Chess:
         
         # Convertir la letra a un índice de columna
         if letter not in letter_to_col:
-            raise InvalidPosition("First character must be a letter from A to H.")
+            raise InvalidPosition(f"[{input_str[0]}] from [{input_str}], must be a letter from A to H.")
         col = letter_to_col[letter]
 
         # Convertir el número de la columna
@@ -122,10 +123,10 @@ class Chess:
 
             row = int(num)
             if row < 0 or row > 7:
-                raise InvalidPosition("Second character must be a number from 1 to 8.")
+                raise InvalidPosition(f"Second character from [{input_str}], must be a number from 1 to 8.")
             return (row, col)
         
         except ValueError:
-            raise ValueError("Second character must be a number.")
+            raise ValueError(f"Second character from [{input_str}], must be a number.")
         except InvalidPosition:
             raise        
