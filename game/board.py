@@ -66,11 +66,9 @@ class Board:
         except PieceNotFoundError as e:
             raise
         except InvalidPieceMovement as e:
-            print(f"Error: {e}")
             raise
 
         except InvalidMoveError as e:
-            print(f"Error: {e}")
             raise  
 
     def validate_move(self, origen, destino):

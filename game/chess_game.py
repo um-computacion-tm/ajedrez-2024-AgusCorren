@@ -33,11 +33,9 @@ class Chess:
 
             
         except InvalidPosition as e:
-            print(f"Error: {e}")
             raise
 
         except PieceNotFoundError as e:
-            print(f"Error: {e}")
             raise
 
         except InvalidPieceMovement as e:
@@ -47,7 +45,6 @@ class Chess:
             raise
 
         except ColorError as e:
-            print(f"Error: {e}")
             raise
 
 
