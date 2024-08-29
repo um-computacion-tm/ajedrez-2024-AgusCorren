@@ -35,7 +35,7 @@ class Interfaz:
         result = ""
         if type == "start_game":
         ## Validar opciones de menu
-            if option not in "12":
+            if option not in ["1", "2"]:
                 result = "Invalid option"
             elif option == "2":
                 result = "Game Over"
@@ -44,7 +44,7 @@ class Interfaz:
             
         elif type == "continue_game":
         ## Validar opciones de menu
-            if option not in "123":
+            if option not in ["1", "2", "3"]:
                 result = "Invalid option"
             elif option == "3":
                 result = "Resign"
@@ -77,7 +77,7 @@ class Interfaz:
         print('\n')
         return from_input, to_input
 
-    def attempt_move(self, from_input, to_input):
+    def attempt_move(self, from_input, to_input, test_mode=False):
         try:
             self.clear_terminal()
             print('\n')
@@ -88,19 +88,26 @@ class Interfaz:
         except ValueError as e:
             print(e)
         except PieceNotFoundError as e:
-            pass
+            if test_mode:
+                raise
         except InvalidPieceMovement as e:
-            pass
+            if test_mode:
+                raise
         except InvalidMoveError as e:
-            pass
+            if test_mode:
+                raise
         except InvalidPosition as e:
-            pass
+            if test_mode:
+                raise
         except ColorError as e:
-            pass
+            if test_mode:
+                raise
         except ChessError as e:
-            pass
+            if test_mode:
+                raise
         except Exception as e:
-            pass
+            if test_mode:
+                raise
 
     def turn_menu(self):
         ## Este Menu permite al jugador decidir si quiere continuar o no
@@ -126,7 +133,7 @@ class Interfaz:
         print('\n')
         self.__chess__.print_board()
         print('\n')
-        print("Turn: ", self.__chess__.turn())
+        print(f"Turn: {self.__chess__.turn()}")
         print('\nSelect an Option')
         print('1. Move piece')
         print('2. Draw')
@@ -160,17 +167,16 @@ class Interfaz:
         print(f"\n{self.__chess__.turn()}, Do you want to accept the draw? [Y/N]")
         
         while True:
-            try:
-                option = input("Type your answer here: ")
-                if option.lower() == "y":
-                    return True
-                elif option.lower() == "n":
-                    self.__chess__.change_turn()
-                    break
-            except ValueError:
-                print("\nInvalid input. Please enter numeric values.")
 
-        return False
+            option = input("Type your answer here: ")  
+
+            if option.lower() == "y":
+                return True
+            elif option.lower() == "n":
+                self.__chess__.change_turn()
+                return False
+            else:
+                print("\nInvalid input. Please enter y or n.")
 
     def clear_terminal(self):
         os.system('cls' if os.name == 'nt' else 'clear')
