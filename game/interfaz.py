@@ -81,30 +81,13 @@ class Interfaz:
         try:
             self.clear_terminal()
             print('\n')
-            if self.__chess__.move(from_input, to_input):
-                pass
-            else:
-                print(self.__chess__.move(from_input, to_input))
-        except ValueError as e:
+            result = self.__chess__.move(from_input, to_input)
+            if not result:
+                print(result)
+        except (ValueError, PieceNotFoundError, InvalidPieceMovement, InvalidMoveError, InvalidPosition, ColorError, ChessError) as e:
+            if test_mode:
+                raise
             print(e)
-        except PieceNotFoundError as e:
-            if test_mode:
-                raise
-        except InvalidPieceMovement as e:
-            if test_mode:
-                raise
-        except InvalidMoveError as e:
-            if test_mode:
-                raise
-        except InvalidPosition as e:
-            if test_mode:
-                raise
-        except ColorError as e:
-            if test_mode:
-                raise
-        except ChessError as e:
-            if test_mode:
-                raise
         except Exception as e:
             if test_mode:
                 raise
