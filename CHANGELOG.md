@@ -5,6 +5,62 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.5] - 2024-08-30
+- **tests/test_interfaz.py**:
+  - Se han agregado las ultimas pruebas para la clase `Interfaz`.
+## [0.6.0] - 2024-08-29
+### Modificando
+- **game/chess_game.py**:
+  - Se ha refactorizado el codigo para tener inputs mas legibles. 
+- **game/interfaz.py**:
+  - Se ha arreglado el codigo para cerrar el bucle y terminar el juego.
+- **tests/test_interfaz.py**:
+  - Se han agregado nuevas pruebas para la clase `Interfaz`.
+## [0.5.2] - 2024-08-28
+### Modificando
+- **tests/test_interfaz.py**:
+  - Se han agregado nuevas pruebas para la clase `Interfaz`.
+- **game/interfaz.py**:
+  - Se ha refactorizado el codigo para evitar issues de codeclimate.
+## [0.5.1] - 2024-08-27
+## Modificando
+- **game/pieces**:
+  - Modificacion en `GENERAL` de todas la piezas.
+  - Se han refactorizado las piezas para obviar la creacion de atributos de clase y heredarlos directamente de `Piece`.
+## [0.5.0] - 2024-08-26
+## Modificando
+- **game/pieces**:
+  - Modificacion en `GENERAL` de todas la piezas.
+  - Se han refactorizado las piezas para solucionar problemas de codeclimate "bloques identicos".
+- **game/pieces/piece.py**:
+  - Se ha implementado método `get_coordinates` para obtener las coordenadas de la piez y mejorar movimientos.
+  - Se ha implementado método `diagonal_moves` para obtener las posiciones posibles de los movimientos diagonales, para `queen` y `bishop`.
+  - Se ha implementado método `horizontal_moves` para obtener las posiciones posibles de los movimientos horizontales, para `queen` y `rook`.
+  - Se ha implementado método `vertical_moves` para obtener las posiciones posibles de los movimientos verticales, para `queen` y `rook`.
+- **game/pieces/pawn.py**:
+  - Se ha refactorizado `check_move`, dividiendolo asi en métodos `is_valid_white_move`, `is_valid_black_move`, `is_valid_pawn_move`y `move_one_cell`, para mejorar el código y evitar issues de codeclimate.
+- **tests/test_interfaz.py**:
+  - Se han agregado algunas pruebas para la clase `Interfaz`.
+## [0.4.5] - 2024-08-25
+### Modificando
+- **game/exceptions.py**:
+  - Se han refactorizado los mensajes de excepciones para arreglar issues de codeclimate.
+- **game/interfaz.py**:
+  - Se ha refactorizado del codigo para que sea más legible y fácil de entender, implementado así método como:
+    - `handle_resignation` para que el jugador resista la ventaja.
+    - `handle_draw` para que el jugador rechace el empate.
+    - `draw` para que el jugador decide si acepta o rechaza el empate.
+    - `turn_menu` para que el jugador decida si quiere continuar o no.
+    - `display_board_and_turn` para mostrar el tablero y el turno.
+    - `get_move_input` para que el jugador ingrese su movimiento.
+    - `attempt_move` para que el jugador intente mover la pieza.
+  - Se ha implementado método `clear_terminal` para limpiar la terminal y hacer mas amigable la interfaz.
+## [0.4.0] - 2024-08-23
+### Modificando
+- **game/board.py**:
+  - Método `check_victory` para saber cuales piezas quedan en el tablero.
+- **game/chess_game.py**:
+  - Método `check_victory` para verificar el estado del juego.
 ## [0.3.0] - 2024-08-22
 ### Agregando
 - **tests/test_interfaz.py**:
