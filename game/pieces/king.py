@@ -5,7 +5,7 @@ class King(Piece):
         super().__init__(color, position)
         
     def __str__(self):
-        return "♚" if self.__color__ == "white" else "♔"
+        return "♔" if self.__color__ == "white" else "♚"
     
     def check_move(self, positions, new_position):
 
