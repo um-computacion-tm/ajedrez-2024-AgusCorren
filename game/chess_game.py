@@ -1,5 +1,5 @@
 from game.board import Board
-from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPosition, InvalidPieceMovement, ColorError, ChessError  
+from game.exceptions import PieceNotFoundError, InvalidMoveError, InvalidPosition, InvalidPieceMovement, CantEatKingError, ColorError, ChessError  
 class Chess:
     def __init__(self):
         self.__board__ = Board()
@@ -39,6 +39,9 @@ class Chess:
             raise
 
         except InvalidPieceMovement as e:
+            raise
+        
+        except CantEatKingError as e:
             raise
         
         except ValueError:

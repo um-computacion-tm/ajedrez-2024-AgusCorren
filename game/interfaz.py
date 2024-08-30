@@ -88,7 +88,7 @@ class Interfaz:
             print('\n')
             result = self.__chess__.move(from_input, to_input)
             return result
-        except (ValueError, PieceNotFoundError, InvalidPieceMovement, InvalidMoveError, InvalidPosition, ColorError, ChessError) as e:
+        except (ValueError, CantEatKingError, PieceNotFoundError, InvalidPieceMovement, InvalidMoveError, InvalidPosition, ColorError, ChessError) as e:
             if test_mode:
                 raise
             print(e)

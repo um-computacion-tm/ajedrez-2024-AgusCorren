@@ -34,6 +34,16 @@ class TestChess(unittest.TestCase):
         self.assertEqual(self.__chess__.turn(), "BLACK")
         self.__chess__.change_turn()
         self.assertEqual(self.__chess__.turn(), "WHITE")
+    
+    def test_cant_eat_king(self):
+        # Verificar que las piezas no puedan comer al rey.
+        self.__chess__.__board__.clean_board()
+        self.__chess__.__board__.set_piece_on_board(5, 0, King("white", (5, 0)))
+        self.__chess__.__board__.set_piece_on_board(2, 3, Pawn("white", (2, 3)))
+        self.__chess__.__board__.set_piece_on_board(1, 0, Pawn("black", (1, 0)))
+        self.__chess__.__board__.set_piece_on_board(1, 4, King("black", (1, 4)))
+        with self.assertRaises(CantEatKingError):
+            self.__chess__.move("D2", "E1")
 
     def test_invalid_move(self):
         with self.assertRaises(PieceNotFoundError):
