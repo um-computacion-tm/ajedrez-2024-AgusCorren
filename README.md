@@ -22,8 +22,8 @@ El juego se ejecuta utilizando Docker. Sigue los siguientes pasos para instalar 
 ```
 ## Reglas del Juego
 El juego sigue las reglas básicas del ajedrez con algunas modificaciones:
-    - `Reglas originales del ajedrez`: Consultarlas [aquí](https://es.wikipedia.org/wiki/Leyes_del_ajedrez)
-    - `Reglas de este juego`: En este ajedrez se respetan los movimientos de las piezas como en el ajedrez tradicional. Sin embargo, no se implementan reglas como jaque, jaque mate, ni movimientos especiales.
+- `Reglas originales del ajedrez`: Consultarlas [aquí](https://es.wikipedia.org/wiki/Leyes_del_ajedrez)
+- `Reglas de este juego`: En este ajedrez se respetan los movimientos de las piezas como en el ajedrez tradicional. Sin embargo, no se implementan reglas como jaque, jaque mate, ni movimientos especiales.
 ## Cómo Jugar
 - El juego se basa en turnos alternos, donde cada jugador mueve una pieza según las reglas del ajedrez tradicional. A continuación se describe la interfaz del juego:
 
