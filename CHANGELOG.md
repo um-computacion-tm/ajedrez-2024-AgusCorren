@@ -5,9 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ## [0.6.5] - 2024-08-30
+### Modificando
 - **tests/test_interfaz.py**:
   - Se han agregado las ultimas pruebas para la clase `Interfaz`.
+- **game/board.py**:
+  - Se ha agregado la excepción `CantEatKingError` para que no pueda comer al rey de tu oponente.
+- **game/exceptions.py**:
+  - Se ha agregado la excepción `CantEatKingError` para que no pueda comer al rey de tu oponente.
 ## [0.6.0] - 2024-08-29
 ### Modificando
 - **game/chess_game.py**:

@@ -28,3 +28,8 @@ class InvalidPieceMovement(InvalidMoveError):
     """Excepción para movimientos inválidos de una pieza."""
     def __init__(self, message="Invalid Piece Movement"):
         super().__init__(message)
+
+class CantEatKingError(ChessError):
+    """Excepción para que no pueda comer al rey de tu oponente."""
+    def __init__(self, message="You can't eat the king of your opponent"):
+        super().__init__(message)

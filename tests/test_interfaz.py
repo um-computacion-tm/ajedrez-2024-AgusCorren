@@ -159,6 +159,7 @@ class TestInterfazMoves(unittest.TestCase):
 
         # Simular diferentes excepciones
         for exception_class in [
+            CantEatKingError,
             InvalidPosition,
             ColorError,
             PieceNotFoundError,
