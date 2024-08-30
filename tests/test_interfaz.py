@@ -171,12 +171,53 @@ class TestInterfazMoves(unittest.TestCase):
                 self.mock_chess.move.side_effect = exception_class("Invalid move")
                 with self.assertRaises(exception_class):
                     self.interfaz.attempt_move('e2', 'e4', test_mode=True)
-    
 
+    @patch('builtins.input', side_effect=['3', '2'])
+    @patch('builtins.print')
+    def test_menu_invalid_options(self, mock_print, mock_input):
+        interfaz = Interfaz()
+        
+        interfaz.menu()
 
-'''     
-Aun quedan testeos de las lineas: 23, 60-66
-'''
+        # Verifica que se imprimió "Invalid option" cuando se seleccionó '3'
+        mock_print.assert_any_call("\nInvalid option\n")
+        
+        # Verifica que se imprimió "Game Over" cuando se seleccionó '2'
+        mock_print.assert_any_call("\nGame Over\n")
+
+    @patch('game.interfaz.Interfaz.turn_menu', side_effect=[True, True, True])
+    @patch('game.interfaz.Interfaz.display_board_and_turn')
+    @patch('game.interfaz.Interfaz.get_move_input', side_effect=[('e2', 'e4'), ('a7', 'a8'), ('a8', 'a7')])
+    @patch('game.interfaz.Interfaz.attempt_move', side_effect=['Continue', 'Continue', 'Black wins'])
+    @patch('builtins.print')
+    def test_start_game_game_over(self, mock_print, mock_attempt_move, mock_get_move_input, mock_display_board_and_turn, mock_turn_menu):
+        interfaz = Interfaz()
+        interfaz.start_game()
+
+        # Verificar que turn_menu es llamado múltiples veces
+        self.assertEqual(mock_turn_menu.call_count, 3)
+
+        # Verificar que display_board_and_turn es llamado tres veces (una vez por cada turno)
+        self.assertEqual(mock_display_board_and_turn.call_count, 3)
+
+        # Verificar que get_move_input es llamado tres veces (una vez por cada movimiento)
+        self.assertEqual(mock_get_move_input.call_count, 3)
+
+        # Verificar que attempt_move es llamado tres veces (una vez por cada movimiento)
+        self.assertEqual(mock_attempt_move.call_count, 3)
+
+        # Verificar que el mensaje "Black wins" y "Game Over" se imprimen al final
+
+        mock_print.assert_any_call('\nBlack wins')
+        mock_print.assert_any_call("\nGame Over\n")
+
+    @patch('game.interfaz.Interfaz.turn_menu', side_effect=[False])
+    @patch('builtins.print')
+    def test_start_game_turn_menu_false(self, mock_print, mock_turn_menu):
+        interfaz = Interfaz()
+        interfaz.start_game()
+        # Verificar que turn_menu es llamado una sola vez
+        self.assertEqual(mock_turn_menu.call_count, 1)
 
 if __name__ == '__main__':
     unittest.main()

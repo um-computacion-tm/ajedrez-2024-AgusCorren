@@ -63,7 +63,12 @@ class Interfaz:
             self.display_board_and_turn()
 
             from_input, to_input = self.get_move_input()
-            self.attempt_move(from_input, to_input)
+            result = self.attempt_move(from_input, to_input)
+
+            if result in ["Black wins", "White wins", "Draw"]:
+                print(f'\n{result}')
+                print("\nGame Over\n")
+                break
 
     def display_board_and_turn(self):
         self.clear_terminal()
@@ -82,8 +87,7 @@ class Interfaz:
             self.clear_terminal()
             print('\n')
             result = self.__chess__.move(from_input, to_input)
-            if not result:
-                print(result)
+            return result
         except (ValueError, PieceNotFoundError, InvalidPieceMovement, InvalidMoveError, InvalidPosition, ColorError, ChessError) as e:
             if test_mode:
                 raise
