@@ -11,7 +11,7 @@ from game.pieces.queen import Queen
 from game.pieces.rook import Rook
 
 class Board:
-    def __init__(self):
+    def __init__(self, for_test=False):
         # Crea una matriz vacia de 8x8 (TABLERO)
         self.__positions__ = []
         for _ in range(8):
@@ -20,7 +20,8 @@ class Board:
                 col.append(None)
             self.__positions__.append(col)
 
-        self.setup_pieces()
+        if not for_test:
+            self.setup_pieces()
 
     def setup_pieces(self):
         self.__positions__[0][0] = Rook("black",(0,0))
@@ -47,8 +48,11 @@ class Board:
 
     def get_piece(self, row, col): # Devuelve la pieza en la posicion indicada
         return self.__positions__[row][col]
+
+    def set_piece_on_board(self, row, col, piece):
+        self.__positions__[row][col] = piece
     
-    def find_piece(self, piece): # Devuelve la posicion de la pieza encontrada
+    def find_piece(self, piece): # Devuelve la posicion de la pieza encontrada (x, y)
         if piece is not None:
             for row in range(8):
                 for col in range(8):
@@ -97,8 +101,8 @@ class Board:
         pos_destino = destino
         destino = self.get_piece(destino[0], destino[1])
 
-        self.__positions__[pos_destino[0]][pos_destino[1]] = origen
-        self.__positions__[pos_origen[0]][pos_origen[1]] = None
+        self.set_piece_on_board(pos_destino[0], pos_destino[1], origen)
+        self.set_piece_on_board(pos_origen[0], pos_origen[1], None)
         origen.set_position(pos_destino)
         if destino is not None:
             destino.set_position(None)
@@ -150,6 +154,3 @@ class Board:
         for row in range(8):
             for col in range(8):
                 self.__positions__[row][col] = None
-
-    def set_piece_on_board(self, row, col, piece):
-        self.__positions__[row][col] = piece
