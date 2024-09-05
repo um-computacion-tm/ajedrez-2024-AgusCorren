@@ -27,6 +27,7 @@ class Interfaz:
                 break
 
             elif option == "Game Started":
+                self.__chess__ = Chess()
                 self.clear_terminal()
                 if self.start_game():
                     break
