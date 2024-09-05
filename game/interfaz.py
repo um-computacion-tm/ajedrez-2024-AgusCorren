@@ -28,8 +28,8 @@ class Interfaz:
 
             elif option == "Game Started":
                 self.clear_terminal()
-                self.start_game()
-                break
+                if self.start_game():
+                    break
     
     def validate_option(self, type, option):
         result = ""
@@ -68,7 +68,7 @@ class Interfaz:
             if result in ["Black wins", "White wins", "Draw"]:
                 print(f'\n{result}')
                 print("\nGame Over\n")
-                break
+                return False
 
     def display_board_and_turn(self):
         self.clear_terminal()

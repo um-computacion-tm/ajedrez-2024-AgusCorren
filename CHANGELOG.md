@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.6.6] - 2024-08-30
+## [0.6.7] - 2024-09-05
+### Modificando
+- **game/interfaz.py**:
+  - Se ha modificado el codigo para cuando termine el juego, vuelva a mostrar el menu principal.
+## [0.6.6] - 2024-09-03
 ### Modificando
 - **game/board.py**:
   - Se ha modificado la forma de establecer una pieza al moverla en el tablero.
