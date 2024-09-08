@@ -128,5 +128,9 @@ class TestChess(unittest.TestCase):
         self.__chess__.__board__.set_piece_on_board(1, 0, King("white", (1, 0)))
         self.assertEqual(self.__chess__.move("A1", "A2"), "Draw")
 
+    def test_next_turn(self):
+        self.assertEqual(self.__chess__.next_turn(), "BLACK")
+        self.__chess__.change_turn()
+        self.assertEqual(self.__chess__.next_turn(), "WHITE")
 if __name__ == "__main__":
     unittest.main()
