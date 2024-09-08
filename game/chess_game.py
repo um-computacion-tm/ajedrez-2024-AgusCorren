@@ -63,7 +63,7 @@ class Chess:
     def print_board(self):
         self.__board__.print_board()
 
-    def own_pieces(self, x, y, from_input):
+    def own_pieces(self, x, y, from_input=["a", 1]):
         try:
             piece = self.__board__.get_piece(x, y)
             if piece is None:
