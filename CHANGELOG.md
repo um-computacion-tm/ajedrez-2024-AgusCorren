@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2024-09-08
+### Modificando
+- **game/board.py**:
+  - Se ha implementado la documentacion el codigo en 'Docstrings'.
+- **game/interfaz.py**: 
+  - Se ha implementado la documentacion el codigo en 'Docstrings'.
+  - Se ha modificado el metodo `draw` para que la clase `Interfaz` no cambie el turno de la clase `Chess`.
+- **game/chess_game.py**:
+  - Se ha implementado la documentacion el codigo en 'Docstrings'.
+  - Se ha agregado el método `next_turn` para saber de quien es el siguiente turno.
+  - Se ha agregado el método `check_move` para que la verificación del movimiento y del estado no sea dentro del metodo `move`.
+- **tests/test_chess_game.py**:
+  - Se ha agregado el test para el metodo `next_turn`.
 ## [0.6.7] - 2024-09-05
 ### Modificando
 - **game/interfaz.py**:

@@ -10,69 +10,61 @@ class Chess:
             # Validar coordenadas
             x, y = self.translate_input(from_input)
             x1, y1 = self.translate_input(to_input)
-            
             # Verificar si es una pieza y si es del mismo color que turno
             origen = self.own_pieces(x, y, from_input)
-
             destino = (x1, y1)
-            
             # Mover pieza y verificar si fue exitoso
             mover_pieza = self.__board__.move(origen, destino)
-            status = self.check_victory()
-
-            if mover_pieza:
-                if status == "Draw":
-                    return "Draw"
-                elif status == "Black wins":
-                    return "Black wins"
-                elif status == "White wins":
-                    return "White wins"
-                else:
-                    self.change_turn()  # Cambiar turno si el juego continúa
-                    return True  # Movimiento válido pero el juego no ha terminado
-
-            
-        except InvalidPosition as e:
-            raise
-
-        except PieceNotFoundError as e:
-            raise
-
-        except InvalidPieceMovement as e:
-            raise
+            # Verificar si el movimiento se pudo realizar y chequear si el juego ha terminado
+            check_move = self.check_move(mover_pieza)
+            return check_move
         
-        except CantEatKingError as e:
-            raise
-        
-        except ValueError:
+        except (InvalidPosition, PieceNotFoundError, InvalidPieceMovement, CantEatKingError, ValueError, ColorError) as e:
             raise
 
-        except ColorError as e:
-            raise
+    def check_move(self, movement):
+        status = self.check_victory()
+        result = True
+        if movement: # Comopr
+            if status == "Draw":
+                result = "Draw"
+            elif status == "Black wins":
+                result = "Black wins"
+            elif status == "White wins":
+                result = "White wins"
+            else:
+                self.change_turn()  # Cambiar turno si el juego continúa
+                result = True  # Movimiento válido pero el juego no ha terminado
+            return result
 
-
-    def turn(self):
+    def turn(self): # Metodo para obtener el turno
         return self.__turn__
     
-    def change_turn(self):
+    def change_turn(self): # Metodo para cambiar el turno
         if self.__turn__ == "WHITE":
             self.__turn__ = "BLACK"
         else:
             self.__turn__ = "WHITE"
     
-    def print_board(self):
+    def next_turn(self): # Metodo para saber de quien es el siguiente turno
+        if self.__turn__ == "WHITE":
+            return "BLACK"
+        else:
+            return "WHITE"
+
+    def print_board(self): # Metodo para imprimir el tablero
         self.__board__.print_board()
 
     def own_pieces(self, x, y, from_input=["a", 1]):
         try:
             piece = self.__board__.get_piece(x, y)
-            if piece is None:
+            if piece is None: # Si la seleccion de la pieza no existe una de ellas, se lanza una excepcion
                 raise PieceNotFoundError(f'In "{from_input[0] + str(from_input[1])}" position there is no piece')
 
             color_turn = self.__turn__.lower()
             color_piece = self.__board__.color_pieces(x, y).lower()
 
-            if color_turn == color_piece:
+            if color_turn == color_piece: # Cheque si la pieza a mover es del mismo color que el turno
                 return piece
             else:
                 raise ColorError("Cannot move a piece of a different color")
