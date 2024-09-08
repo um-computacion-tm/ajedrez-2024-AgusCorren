@@ -10,9 +10,9 @@ class Chess:
             # Validar coordenadas
             x, y = self.translate_input(from_input)
             x1, y1 = self.translate_input(to_input)
-
+            
             # Verificar si es una pieza y si es del mismo color que turno
-            origen = self.own_pieces(x, y, from_input[0])
+            origen = self.own_pieces(x, y, from_input)
 
             destino = (x1, y1)
             
@@ -63,11 +63,11 @@ class Chess:
     def print_board(self):
         self.__board__.print_board()
 
-    def own_pieces(self, x, y, letter="a"):
+    def own_pieces(self, x, y, from_input=["a", 1]):
         try:
             piece = self.__board__.get_piece(x, y)
             if piece is None:
-                raise PieceNotFoundError(f'In "{letter.upper() + str(y)}" position there is no piece')
+                raise PieceNotFoundError(f'In "{from_input[0] + str(from_input[1])}" position there is no piece')
 
             color_turn = self.__turn__.lower()
             color_piece = self.__board__.color_pieces(x, y).lower()
